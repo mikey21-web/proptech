@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      - DATABASE_URL=postgresql://clickprops:clickprops_dev@postgres:5432/clickprops
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - clickprops-net
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "scripts/start-workers.js"]
+    env_file:
+      - .env.local
+    environment:
+      - DATABASE_URL=postgresql://clickprops:clickprops_dev@postgres:5432/clickprops
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=development
+      - RECEIPT_OUTPUT_DIR=/tmp/clickprops-artifacts
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - clickprops-net
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: clickprops
+      POSTGRES_USER: clickprops
+      POSTGRES_PASSWORD: clickprops_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clickprops"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - clickprops-net
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - clickprops-net
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  clickprops-net:
+    driver: bridge

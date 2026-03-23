@@ -1,0 +1,87 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "clickprops-main",
+    "title": "ClickProps CRM - Production Dashboard",
+    "tags": ["clickprops", "production"],
+    "timezone": "Asia/Kolkata",
+    "refresh": "30s",
+    "time": { "from": "now-1h", "to": "now" },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Application Uptime",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+        "targets": [{ "expr": "clickprops_uptime_seconds", "legendFormat": "Uptime" }],
+        "fieldConfig": { "defaults": { "unit": "s" } }
+      },
+      {
+        "id": 2,
+        "title": "Memory Usage (RSS)",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+        "targets": [
+          { "expr": "clickprops_memory_rss_bytes", "legendFormat": "RSS" },
+          { "expr": "clickprops_memory_heap_used_bytes", "legendFormat": "Heap Used" },
+          { "expr": "clickprops_memory_heap_total_bytes", "legendFormat": "Heap Total" }
+        ],
+        "fieldConfig": { "defaults": { "unit": "bytes" } }
+      },
+      {
+        "id": 3,
+        "title": "Request Rate",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+        "targets": [
+          { "expr": "rate(clickprops_requests_total[5m])", "legendFormat": "Requests/s" },
+          { "expr": "rate(clickprops_errors_total[5m])", "legendFormat": "Errors/s" }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Error Rate",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+        "targets": [{ "expr": "clickprops_errors_total", "legendFormat": "Total Errors" }],
+        "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "value": 0, "color": "green" }, { "value": 10, "color": "yellow" }, { "value": 100, "color": "red" }] } } }
+      },
+      {
+        "id": 5,
+        "title": "Health Check Status",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+        "targets": [{ "expr": "up{job=\"clickprops\"}", "legendFormat": "Health" }],
+        "fieldConfig": { "defaults": { "mappings": [{ "type": "value", "options": { "1": { "text": "UP", "color": "green" }, "0": { "text": "DOWN", "color": "red" } } }] } }
+      },
+      {
+        "id": 6,
+        "title": "Node.js Version",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+        "targets": [{ "expr": "nodejs_version_info", "legendFormat": "{{version}}" }]
+      }
+    ]
+  },
+  "alerts": [
+    {
+      "name": "High Memory Usage",
+      "condition": "clickprops_memory_rss_bytes > 450000000",
+      "severity": "warning",
+      "message": "ClickProps memory usage exceeds 450MB"
+    },
+    {
+      "name": "Application Down",
+      "condition": "up{job=\"clickprops\"} == 0",
+      "severity": "critical",
+      "for": "1m",
+      "message": "ClickProps application is down!"
+    },
+    {
+      "name": "High Error Rate",
+      "condition": "rate(clickprops_errors_total[5m]) > 1",
+      "severity": "warning",
+      "message": "ClickProps error rate exceeds 1/s"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+.env*
+!.env.example
+docker-compose*.yml
+Dockerfile
+.github
+__tests__
+coverage
+.vscode
+.cursor
