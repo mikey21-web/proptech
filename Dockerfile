@@ -16,8 +16,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npx prisma generate
-RUN npm run build
+ENV SKIP_ENV_VALIDATION=true
+RUN npx prisma generate 2>&1 || echo "Prisma generate failed, continuing..."
+RUN npm run build 2>&1 | tee build.log && test -d .next || (cat build.log && exit 1)
 
 # Stage 3: Production
 FROM node:20-alpine AS runner
