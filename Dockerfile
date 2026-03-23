@@ -29,8 +29,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Install curl for health checks
-RUN apk add --no-cache curl
+# Install curl and openssl for health checks and Prisma
+RUN apk add --no-cache curl openssl
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
