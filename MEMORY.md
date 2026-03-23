@@ -506,6 +506,11 @@ npm run start
 - `app/api/projects/route.ts` and admin project fetches refresh expired inventory before returning availability counts
 - Verified with clean rebuild: `rm -rf .next && npm run build`
 
+### Deployment Build Fixes — COMPLETED ✅
+- `app/api/admin/audit/route.ts` now exports `dynamic = 'force-dynamic'` and `runtime = 'nodejs'` to prevent build-time route data collection failures on Vercel/Railway
+- `next.config.js` now sets `output: 'standalone'` so Docker/Railway builds generate `.next/standalone`
+- Verified with clean rebuild: `rm -rf .next && npm run build`
+
 ## Next Steps (Priority Order)
 
 1. **CI/CD Testing & Live Deployment** — Run workflows with actual Hetzner deployment (DeepSeek/DO task)
