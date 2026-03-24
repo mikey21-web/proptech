@@ -1,7 +1,4 @@
 import { NextRequest } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { requireAuth } from '@/lib/auth';
-import { ok, unauthorized, forbidden, serverError } from '@/lib/api-response';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -12,6 +9,10 @@ export const runtime = 'nodejs';
 
 export async function GET(req: NextRequest) {
   try {
+    const { prisma } = await import('@/lib/prisma');
+    const { requireAuth } = await import('@/lib/auth');
+    const { ok, unauthorized, forbidden, serverError } = await import('@/lib/api-response');
+
     const auth = await requireAuth(['super_admin', 'admin']);
     if (!auth.authorized) {
       return auth.status === 401
