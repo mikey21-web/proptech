@@ -1,17 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuth } from '@/lib/auth';
-import {
-  getDashboardMetrics,
-  getAgentPerformance,
-  getFinancialReport,
-  getPaymentAnalytics,
-  getCommissionReport,
-} from '@/lib/dashboard/analytics';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET(req: NextRequest) {
   try {
+    const { requireAuth } = await import('@/lib/auth');
+    const {
+      getDashboardMetrics,
+      getAgentPerformance,
+      getFinancialReport,
+      getPaymentAnalytics,
+      getCommissionReport,
+    } = await import('@/lib/dashboard/analytics');
+
     const auth = await requireAuth(['super_admin', 'admin', 'sales_manager']);
     if (!auth.authorized)
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
