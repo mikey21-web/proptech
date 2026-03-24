@@ -13,6 +13,7 @@ import {
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 // ---------------------------------------------------------------------------
 // POST /api/customer/payments/verify — Verify payment after gateway callback

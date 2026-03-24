@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 import { NextRequest } from 'next/server';
 import { requireAuth } from '@/lib/auth';
 import { ok, badRequest, unauthorized, forbidden, serverError } from '@/lib/api-response';
