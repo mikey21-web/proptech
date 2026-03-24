@@ -99,7 +99,7 @@ function expandPerms(
 // ═══════════════════════════════════════════════════════════════════════════
 
 const HASHED_PASSWORD =
-  "$2a$12$LJ3dFmKvHPr2H.Zuqe6Wk.QnHFfMXjLqXlKjGJvYh1sZ6h2GFOYq"; // Admin@123
+  "$2a$12$RUIPMc8F1MiB/lrnMFXRouCd57Q/Fj8a5f2v76JpIdJ1VmIfl7ynq"; // Admin@123
 
 const FIRST_NAMES = [
   "Rajesh", "Suresh", "Priya", "Anitha", "Kumar", "Lakshmi", "Venkatesh",

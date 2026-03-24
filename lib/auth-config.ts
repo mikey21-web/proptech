@@ -14,14 +14,6 @@ const ROLE_PRIORITY: Record<string, number> = {
   customer: 1,
 }
 
-// **CRITICAL FIX**: If NEXTAUTH_URL is defined but empty in Vercel, NextAuth crashes
-// with `TypeError: Invalid URL` at `new URL('')` during `getServerSession`.
-if (typeof process !== 'undefined') {
-  const authUrl = process.env.NEXTAUTH_URL;
-  if (!authUrl || authUrl.trim() === '') {
-    process.env.NEXTAUTH_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
-  }
-}
 
 async function resolveUserRole(userId: string): Promise<UserRole> {
   const userRoles = await prisma.userRole.findMany({
