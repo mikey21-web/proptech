@@ -4,6 +4,7 @@ import { requireAuth } from '@/lib/auth';
 import { ok, unauthorized, forbidden, serverError } from '@/lib/api-response';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 // ---------------------------------------------------------------------------
 // GET /api/admin/dashboard — Executive dashboard KPIs & data

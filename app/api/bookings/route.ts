@@ -17,6 +17,7 @@ import type { Prisma } from '@prisma/client';
 import { isExpiredBlock } from '@/lib/inventory-blocks';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 // ---------------------------------------------------------------------------
 // Booking number generator

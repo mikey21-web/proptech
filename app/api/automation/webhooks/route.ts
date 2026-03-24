@@ -5,6 +5,7 @@ import { WebhookEvent } from '@prisma/client';
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 const createWebhookSchema = z.object({
   url: z.string().url(),

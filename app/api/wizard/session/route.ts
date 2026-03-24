@@ -5,6 +5,7 @@ import { createWizardSession, getWizardSession } from '@/lib/booking-wizard-sess
 import { RateLimiter } from '@/lib/rate-limiter';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 const limiter = new RateLimiter('booking_wizard');
 
