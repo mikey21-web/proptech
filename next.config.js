@@ -15,9 +15,7 @@ const nextConfig = {
     if (isServer) {
       config.externals.push(
         '@prisma/client',
-        '.prisma/client',
-        '@prisma/client/runtime/library',
-        'bcryptjs'
+        '.prisma/client'
       );
     }
     return config;
