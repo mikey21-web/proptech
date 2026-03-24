@@ -17,8 +17,9 @@ const ROLE_PRIORITY: Record<string, number> = {
 // **CRITICAL FIX**: If NEXTAUTH_URL is defined but empty in Vercel, NextAuth crashes
 // with `TypeError: Invalid URL` at `new URL('')` during `getServerSession`.
 if (typeof process !== 'undefined') {
-  if (process.env.NEXTAUTH_URL && process.env.NEXTAUTH_URL.trim() === '') {
-    process.env.NEXTAUTH_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'
+  const authUrl = process.env.NEXTAUTH_URL;
+  if (!authUrl || authUrl.trim() === '') {
+    process.env.NEXTAUTH_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
   }
 }
 
