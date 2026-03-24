@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['@prisma/client', 'prisma', '@prisma/client/runtime/library'],
-  },
+  serverExternalPackages: ['@prisma/client', 'bcrypt'],
   reactStrictMode: true,
   typescript: {
     ignoreBuildErrors: true,
@@ -12,12 +10,6 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     config.externals = [...(config.externals || []), { canvas: 'canvas' }];
-    if (isServer) {
-      config.externals.push(
-        '@prisma/client',
-        '.prisma/client'
-      );
-    }
     return config;
   },
   async headers() {
