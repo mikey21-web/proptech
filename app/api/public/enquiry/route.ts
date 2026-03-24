@@ -4,6 +4,7 @@ import { ok, badRequest, serverError } from '@/lib/api-response';
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 const enquirySchema = z.object({
   name: z.string().min(2, 'Name is required'),

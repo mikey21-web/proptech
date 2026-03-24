@@ -4,6 +4,7 @@ import { ok, serverError } from '@/lib/api-response';
 import { releaseExpiredInventoryBlocks } from '@/lib/inventory-blocks';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 async function getPublicOrgId(): Promise<string | null> {
   const envId = process.env.PUBLIC_ORG_ID;

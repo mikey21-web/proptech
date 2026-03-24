@@ -10,8 +10,16 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.externals = [...(config.externals || []), { canvas: 'canvas' }];
+    if (isServer) {
+      config.externals.push(
+        '@prisma/client',
+        '.prisma/client',
+        '@prisma/client/runtime/library',
+        'bcryptjs'
+      );
+    }
     return config;
   },
   async headers() {
