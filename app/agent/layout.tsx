@@ -88,7 +88,7 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
 
   return (
     <ToastProvider>
-      <div className="flex h-screen overflow-hidden bg-background">
+      <div className="flex min-h-screen bg-background">
         {/* Mobile sidebar overlay */}
         {sidebarOpen && (
           <div
@@ -101,7 +101,7 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
         {/* Sidebar */}
         <aside
           className={cn(
-            'fixed inset-y-0 left-0 z-50 w-64 transform bg-card border-r border-border transition-transform duration-200 ease-in-out lg:static lg:translate-x-0',
+            'fixed inset-y-0 left-0 z-50 w-64 transform bg-card border-r border-border transition-transform duration-200 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0',
             sidebarOpen ? 'translate-x-0' : '-translate-x-full',
           )}
         >
@@ -183,9 +183,9 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
         </aside>
 
         {/* Main content */}
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-1 flex-col min-w-0">
           {/* Top header */}
-          <header className="flex h-16 items-center justify-between border-b border-border bg-card px-4 lg:px-6">
+          <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card px-4 lg:px-6">
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -225,7 +225,7 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
           </header>
 
           {/* Page content */}
-          <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+          <main className="flex-1 p-4 lg:p-6">
             {children}
           </main>
         </div>
